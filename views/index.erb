@@ -1,0 +1,38 @@
+<form action='/offers' method='POST'>
+  <fieldset>
+    <ol>
+      <li>
+        <label>UID:</label>
+		<input type='text' name='client[uid]' value='player1'>
+ 	  </li>
+      <li>
+        <label>Pub0:</label>
+		<input type='text' name='client[pub0]' value='campaign2'>
+ 	  </li>
+      <li>
+        <label>Page:</label>
+		<input type='text' name='client[page]' value='1'>
+ 	  </li>
+	  <input type='submit' value='Send'>
+	</ol>
+  </fieldset>
+</form>
+<% unless @offers.nil? %>
+	<% if !@offers.is_a?(Array) %>
+		<div class='no_offers'><%= @offers %></div>
+	<% else %>
+		<% if @offers.empty? %>
+			<div class='no_offers'>No offers</div>
+		<% else %>
+			<div class='offers'>
+				<% @offers.each do |offer| %>
+					<div class='offer'>
+						<div class='title'><%= offer['title']%></div>
+						<div class='payout'><%= offer['payout']%></div>
+						<div class='thumbnail'><%= offer['thumbnail']['lowres']%></div>
+					</div>
+				<% end %>
+			</div>
+		<% end %>
+	<% end%>
+<% end %>
