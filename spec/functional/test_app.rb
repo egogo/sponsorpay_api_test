@@ -1,7 +1,4 @@
 require 'spec_helper'
-require 'rack/test'
-require 'erb'
-require File.expand_path 'test_app'
 
 describe TestApp do
   include Rack::Test::Methods

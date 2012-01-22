@@ -21,7 +21,7 @@ class TestApp
 
   post '/offers' do
     client = SponsorpayClient.new(API_KEY)
-    @offers = client.get_offers(DEFAULT_PARAMS.merge!(params[:client]))
+    @offers = client.get_offers(DEFAULT_PARAMS.merge(params[:client]))
     erb :index
   end
 end
