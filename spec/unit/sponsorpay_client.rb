@@ -15,7 +15,7 @@ describe SponsorpayClient do
   end
   
   context 'with valid params' do
-    it "retruns array of offers when params are valid" do
+    it "retruns array of offers" do
       response = mock("Response")
       response.stubs(:body).returns('{"code":"OK","offers":[{"title":"FreeAppDaily","payout":5860,"thumbnail":{"lowres":"mzm.gikuvnrn_square_60.png"}},{"title":"My Country","payout":10610,"thumbnail":{"lowres":"w124.png"}}]}')
       response.stubs(:headers).returns({"X-Sponsorpay-Response-Signature" => Digest::SHA1.hexdigest(response.body+API_KEY)})
@@ -27,7 +27,7 @@ describe SponsorpayClient do
       offers.size.should eq(2)
     end
   
-    it "retruns empty array when params are valid, but user has no offers" do
+    it "retruns empty array when user has no offers" do
       response = mock("Response")
       response.stubs(:body).returns('{"code":"NO_CONTENT", "offers":[]}')
       response.stubs(:headers).returns({"X-Sponsorpay-Response-Signature" => Digest::SHA1.hexdigest(response.body+API_KEY)})
@@ -42,14 +42,12 @@ describe SponsorpayClient do
   end
   
   context 'with invalid params' do
-    before :each do
+    it "retruns error message when params are not valid" do
       response = mock("Response")
       response.stubs(:body).returns('{"code":"ERROR_INVALID_PAGE", "message":"A non-existing page was requested with the parameter page."}')
       response.stubs(:code).returns(400)
       SponsorpayClient.stubs(:get).returns(response)
-    end
-    
-    it "retruns error message when params are not valid" do
+
       offers = @client.get_offers(@invalid_params)
       offers.should be_an_instance_of(String)
     end
